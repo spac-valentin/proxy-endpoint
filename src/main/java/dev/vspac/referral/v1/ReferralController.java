@@ -16,6 +16,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
+import static org.springframework.http.MediaType.APPLICATION_FORM_URLENCODED_VALUE;
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
+
 
 @RestController(ReferralController.PATH)
 public class ReferralController {
@@ -32,7 +35,7 @@ public class ReferralController {
     }
 
 
-    @RequestMapping
+    @RequestMapping(consumes = {APPLICATION_JSON_VALUE, APPLICATION_FORM_URLENCODED_VALUE})
     public ResponseEntity<String> handler(@Valid @RequestBody ReferralRegister request,
                                           @RequestHeader MultiValueMap<String, String> headers) {
         String fromEmail = request.getFromEmail();
