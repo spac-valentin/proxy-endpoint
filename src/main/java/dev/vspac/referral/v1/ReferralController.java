@@ -52,7 +52,8 @@ public class ReferralController {
         String fromEmail = request.getFromEmail();
         String referralEmail = request.getEmail();
         referralService.addReferral(fromEmail, referralEmail);
+        MultiValueMap<String, Object> payload = request.toMultiValueMap();
 
-        return restTemplate.exchange(SUBMIT_FORM, HttpMethod.POST, new HttpEntity<>(request.sanitized(), headers), String.class);
+        return restTemplate.exchange(SUBMIT_FORM, HttpMethod.POST, new HttpEntity<>(payload, headers), String.class);
     }
 }
