@@ -10,6 +10,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.MultiValueMap;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,8 +36,18 @@ public class ReferralController {
     }
 
 
-    @RequestMapping(consumes = {APPLICATION_JSON_VALUE, APPLICATION_FORM_URLENCODED_VALUE})
+    @RequestMapping(consumes = APPLICATION_JSON_VALUE)
     public ResponseEntity<String> handler(@Valid @RequestBody ReferralRegister request,
+                                          @RequestHeader MultiValueMap<String, String> headers) {
+        String fromEmail = request.getFromEmail();
+        String referralEmail = request.getEmail();
+        referralService.addReferral(fromEmail, referralEmail);
+
+        return restTemplate.exchange(SUBMIT_FORM, HttpMethod.POST, new HttpEntity<>(request.sanitized(), headers), String.class);
+    }
+
+    @RequestMapping(consumes = APPLICATION_FORM_URLENCODED_VALUE)
+    public ResponseEntity<String> formUrlEncodedHandler(@Valid @ModelAttribute ReferralRegister request,
                                           @RequestHeader MultiValueMap<String, String> headers) {
         String fromEmail = request.getFromEmail();
         String referralEmail = request.getEmail();
