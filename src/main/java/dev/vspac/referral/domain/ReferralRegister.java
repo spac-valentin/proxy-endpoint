@@ -46,6 +46,10 @@ public class ReferralRegister {
         return Collections.unmodifiableMap(this.extra);
     }
 
+    public void setExtra(Map<String, Object> extra) {
+        this.extra = extra;
+    }
+
     @JsonAnySetter
     private void addExtra(final String key, final Object value) {
         this.extra.put(key, value);
@@ -57,13 +61,5 @@ public class ReferralRegister {
         sanitized.extra =  new HashMap<>(this.extra);
 
         return sanitized;
-    }
-
-    public MultiValueMap<String, Object> toMultiValueMap() {
-        MultiValueMap<String, Object> multiValueMap = new LinkedMultiValueMap<>();
-        multiValueMap.add("email", this.email);
-        extra.forEach(multiValueMap::add);
-
-        return multiValueMap;
     }
 }
