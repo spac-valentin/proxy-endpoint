@@ -9,18 +9,18 @@ import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
-
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class ReferralRegister {
 
     @Email
     @NotNull
+    @JsonProperty("fromEmail")
     private String fromEmail;
 
     @Email
     @NotNull
+    @JsonProperty("email")
     private String email;
 
     private Map<String, Object> extra = new HashMap<>();
@@ -61,5 +61,15 @@ public class ReferralRegister {
         sanitized.extra =  new HashMap<>(this.extra);
 
         return sanitized;
+    }
+
+
+    @Override
+    public String toString() {
+        return "ReferralRegister{" +
+                "fromEmail='" + fromEmail + '\'' +
+                ", email='" + email + '\'' +
+                ", extra=" + extra +
+                '}';
     }
 }
